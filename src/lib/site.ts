@@ -10,6 +10,7 @@ export const SITE = {
 
 export type TierId = "starter" | "pro" | "flagship" | "app";
 
+// Starter and Business Pro: rapid template workflow.
 export const WEBSITE_WORKFLOW = {
   initialDeliveryHours: 24,
   finishedDeliveryHours: 48,
@@ -17,6 +18,10 @@ export const WEBSITE_WORKFLOW = {
   launchRequiresFinalBalance: true,
   finalBalanceRequiresApproval: true,
 } as const;
+
+// Custom Flagship and App Development: scoped per project, never a fixed 24h/48h promise.
+export const CUSTOM_BUILD_TIMELINE =
+  "Timelines are scoped per project, from weeks to months depending on complexity and custom architecture.";
 
 // Replace these example URLs with verified merchant payment links before accepting payments.
 export const PAYSTACK_LINKS = {
@@ -44,7 +49,9 @@ export function buildWhatsAppLink(opts: {
   if (opts.industry) lines.push(`Industry: ${opts.industry}`);
   if (opts.tier) lines.push(`Interested in: ${TIER_LABELS[opts.tier]}`);
   if (opts.tier === "app") {
-    lines.push("Please confirm my app milestones and delivery timeline. Initial deposit to kick off; final balance upon approval, before launch.");
+    lines.push(`Please confirm my app milestones and delivery timeline. ${CUSTOM_BUILD_TIMELINE} Initial deposit to kick off; final balance upon approval, before launch.`);
+  } else if (opts.tier === "flagship") {
+    lines.push(`I'd like to discuss a custom flagship build. Please confirm my project scope and delivery timeline. ${CUSTOM_BUILD_TIMELINE} Initial deposit to kick off; final balance upon approval, before custom-domain launch.`);
   } else {
     lines.push("I'm enquiring about the Davy Studios 24-hour build package.");
     lines.push(`Initial website template within ${WEBSITE_WORKFLOW.initialDeliveryHours} hours of deposit; ${WEBSITE_WORKFLOW.revisionRounds} structured round of corrections; finished site ready within ${WEBSITE_WORKFLOW.finishedDeliveryHours} hours. Final balance upon approval, before custom-domain launch.`);

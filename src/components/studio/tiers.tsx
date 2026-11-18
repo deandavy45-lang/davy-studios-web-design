@@ -23,7 +23,7 @@ const TIERS = [
     id: "flagship" as const,
     name: "Custom Flagship",
     kicker: "Tier 3",
-    pitch: "Bespoke design and architecture, like The Keep. Deposit to kick off; initial website template in 24 hours, one structured revision round and finished site within 48 hours. Final balance before custom-domain launch.",
+    pitch: "Bespoke design and architecture, like The Keep. Deposit to kick off; scoped per project, from weeks to months depending on complexity and custom architecture. Final balance before custom-domain launch.",
     features: ["Fully bespoke multi-page design", "Advanced security", "Custom features & integrations", "Dedicated build partner"],
   },
 ];
