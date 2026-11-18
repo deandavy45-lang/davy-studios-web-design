@@ -90,8 +90,8 @@ export function Inquiry({ industry, onIndustry, business, onBusiness }: Props) {
 
           <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
             {tier === "app" || tier === "flagship"
-              ? "Custom builds are scoped per project, from weeks to months. Initial deposit by EFT to kick off development; final balance upon approval, before launch."
-              : "Quoted on WhatsApp. Initial deposit by EFT to kick off development; final balance upon approval."}
+              ? "Custom builds are scoped per project, from weeks to months. Initial deposit by EFT to kick off development; final balance by EFT upon approval, before launch."
+              : "Quoted on WhatsApp. Initial deposit by EFT to kick off development; final balance by EFT upon approval, before launch."}
           </p>
           <MoodButton type="submit" variant="whatsapp" size="lg" className="mt-6 w-full">
             <WhatsAppIcon /> Chat on WhatsApp

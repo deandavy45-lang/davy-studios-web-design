@@ -25,7 +25,7 @@ export function Hero({ industry, businessName }: { industry: Industry; businessN
           <p className="mt-6 max-w-xl text-base leading-relaxed text-hero-muted sm:text-lg">
             Confirm your quote on WhatsApp, pay your non-refundable deposit by EFT and we start building.
             Starter and Business Pro sites: template in 24 hours, finished in 48 with one round of revisions.
-            Approve your site, pay the balance, and go live on your custom domain.
+            Approve your site, pay the balance by EFT, and go live on your custom domain.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <MoodButton asChild size="lg" variant="hero">

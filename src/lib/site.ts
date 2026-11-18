@@ -52,13 +52,13 @@ export function buildWhatsAppLink(opts: {
   if (opts.tier) lines.push(`Interested in: ${TIER_LABELS[opts.tier]}`);
   if (opts.tier === "app") {
     lines.push("Please confirm my app milestones and quote, then send your banking details for the non-refundable initial deposit (EFT). The deposit secures my build slot and development starts upon proof of payment.");
-    lines.push(`${CUSTOM_BUILD_TIMELINE} Final balance upon approval, before launch.`);
+    lines.push(`${CUSTOM_BUILD_TIMELINE} Final balance by EFT upon approval, before launch.`);
   } else if (opts.tier === "flagship") {
     lines.push("I'd like to discuss a custom flagship build. Please confirm my project scope and quote, then send your banking details for the non-refundable initial deposit (EFT). The deposit secures my build slot and development starts upon proof of payment.");
-    lines.push(`${CUSTOM_BUILD_TIMELINE} Final balance upon approval, before custom-domain launch.`);
+    lines.push(`${CUSTOM_BUILD_TIMELINE} Final balance by EFT upon approval, before custom-domain launch.`);
   } else {
     lines.push("I'm enquiring about the Davy Studios 24-hour build package. Please send your banking details for the non-refundable initial deposit (EFT). The deposit secures my build slot and development starts upon proof of payment.");
-    lines.push(`Initial website template within ${WEBSITE_WORKFLOW.initialDeliveryHours} hours of proof of payment; ${WEBSITE_WORKFLOW.revisionRounds} structured round of corrections; finished site ready within ${WEBSITE_WORKFLOW.finishedDeliveryHours} hours. Final balance upon approval, before custom-domain launch.`);
+    lines.push(`Initial website template within ${WEBSITE_WORKFLOW.initialDeliveryHours} hours of proof of payment; ${WEBSITE_WORKFLOW.revisionRounds} structured round of corrections; finished site ready within ${WEBSITE_WORKFLOW.finishedDeliveryHours} hours. Final balance by EFT upon approval, before custom-domain launch.`);
   }
   return `https://wa.me/${digits}?text=${encodeURIComponent(lines.join("\n"))}`;
 }
