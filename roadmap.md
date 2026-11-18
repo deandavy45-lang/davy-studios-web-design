@@ -1,0 +1,14 @@
+# Davy Studios showcase — roadmap
+- [x] Mood switcher (4 categories x 2 themes) + Sunday/SA holiday auto modes
+- [x] Hero, tier showcase, custom app callout, WhatsApp inquiry + floating button
+- [x] Wire real WhatsApp number (0814977059) and The Keep link (https://info.thekeepvault.co.za)
+- [x] Tests for season rules + WhatsApp link, page titles, commit
+- [x] Replace mood tabs with searchable "Select your industry" picker (~24 local industries, grouped)
+- [x] Photoreal image per industry: full-bleed dark hero + phone preview
+- [x] Phone preview shows typed business name live; industry synced with enquiry form
+- [x] WhatsApp message carries industry + business name
+- [x] Remove seasonal badge + preview menu from header; header is brand + industry picker only
+- [x] Update headline, packages and inquiries for deposit, 24-hour template, one revision round, 48-hour completion and balance-before-launch
+- [x] Add secure external Paystack placeholder actions for deposit and balance
+- [x] Test workflow rules and verify the payment and inquiry flows
+- [x] Finalize minimalist headline and two-step approval workflow; streamline inquiry and verify secure payment links
