@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ChevronDown, Check, Menu, Star, MapPin, Clock, Lock, LayoutGrid, Bell, ExternalLink } from "lucide-react";
-import { SITE, TIER_LABELS, type TierId } from "@/lib/site";
+import { SITE, TIER_LABELS, buildWhatsAppLink, type TierId } from "@/lib/site";
 import { findIndustry, type Industry } from "@/lib/industries";
 import { cn } from "@/lib/utils";
 import { WhatsAppIcon } from "./whatsapp-icon";
@@ -36,13 +36,21 @@ const PORTFOLIO: Record<TierId, Project[]> = {
   ],
   app: [
     { id: "a0", title: "The Keep Vault", industry: "accounting", kind: "app", note: "Live secure vault application", url: SITE.theKeepAppUrl },
-    { id: "a1", title: "Iron & Oak Member App", industry: "fitness", kind: "app", note: "Class booking app" },
-    { id: "a2", title: "Paws & Co. Pet Portal", industry: "vet", kind: "app", note: "Pet records & reminders" },
-    { id: "a3", title: "Still Point Studio App", industry: "yoga", kind: "app", note: "Memberships & schedule" },
+    { id: "a1", title: "Iron & Oak Member App", industry: "fitness", kind: "app", note: "Class booking app", url: SITE.theKeepAppUrl },
+    { id: "a2", title: "Paws & Co. Pet Portal", industry: "vet", kind: "app", note: "Pet records & reminders", url: SITE.theKeepAppUrl },
+    { id: "a3", title: "Still Point Studio App", industry: "yoga", kind: "app", note: "Memberships & schedule", url: SITE.theKeepAppUrl },
   ],
 };
 
 const TABS: TierId[] = ["starter", "pro", "flagship", "app"];
+
+// Phone screen geometry: the frame is w-[270px] with a 7px border, so the screen is 256 x 540.
+// The embedded page renders at a real phone width (390px) and is scaled down to fit.
+const SCREEN_W = 256;
+const SCREEN_H = 540;
+const EMBED_W = 390;
+const EMBED_SCALE = SCREEN_W / EMBED_W;
+const EMBED_H = Math.round(SCREEN_H / EMBED_SCALE);
 
 export function AppCallout() {
   // The Keep Vault (live consumer app) is the premier showcase, so it opens first.
@@ -108,12 +116,22 @@ export function AppCallout() {
                 <li key={pt} className="flex gap-2"><Check className="mt-0.5 size-4 shrink-0" />{pt}</li>
               ))}
             </ul>
+            {tier === "app" && (
+              <a
+                href={buildWhatsAppLink({ tier: "app" })}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-mood mt-4 inline-flex items-center gap-2 bg-whatsapp px-4 py-2.5 text-sm text-whatsapp-foreground"
+              >
+                <WhatsAppIcon className="size-4" /> Discuss a custom app
+              </a>
+            )}
           </div>
         </div>
 
         <div className="mx-auto w-[270px]">
           <div className="rounded-[2.6rem] border-[7px] border-phone bg-phone shadow-2xl">
-            <div key={project.id} data-theme={findIndustry(project.industry).theme} className="phone-scroll h-[540px] rounded-[2rem] bg-background text-foreground animate-in fade-in duration-300">
+            <div key={project.id} data-theme={findIndustry(project.industry).theme} className="phone-scroll h-[540px] overflow-x-hidden rounded-[2rem] bg-background text-foreground animate-in fade-in duration-300">
               <ProjectScreen project={project} industry={findIndustry(project.industry)} />
             </div>
           </div>
@@ -131,7 +149,15 @@ function ProjectScreen({ project, industry }: { project: Project; industry: Indu
   useEffect(() => setOrigin(window.location.origin), []);
   if (project.embed === "self") {
     return origin ? (
-      <iframe title={project.title} src={`${origin}/`} className="h-full w-full border-0" loading="lazy" />
+      <div className="relative h-full w-full overflow-hidden">
+        <iframe
+          title={project.title}
+          src={`${origin}/`}
+          loading="lazy"
+          className="absolute left-0 top-0 origin-top-left border-0"
+          style={{ width: EMBED_W, height: EMBED_H, transform: `scale(${EMBED_SCALE})` }}
+        />
+      </div>
     ) : null;
   }
   const isKeep = !!project.url;
@@ -143,7 +169,7 @@ function ProjectScreen({ project, industry }: { project: Project; industry: Indu
       </div>
       {project.url && (
         <a href={project.url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-1.5 bg-secondary px-4 py-2 font-semibold text-secondary-foreground">
-          Open live {project.kind === "app" ? "app" : "site"} <ExternalLink className="size-3" />
+          Open live {project.kind === "app" ? "demo app" : "site"} <ExternalLink className="size-3" />
         </a>
       )}
       {project.kind === "app" ? (
