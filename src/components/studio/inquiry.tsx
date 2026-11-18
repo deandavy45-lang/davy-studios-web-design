@@ -1,17 +1,16 @@
 import { useState } from "react";
-import { SITE, TIER_LABELS, buildWhatsAppLink, type TierId } from "@/lib/site";
+import { PAYMENT_STEPS, SITE, TIER_LABELS, buildWhatsAppLink, type TierId } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { IndustryPicker } from "./industry-picker";
 import { MoodButton } from "./mood-button";
 import type { Industry } from "@/lib/industries";
 import { WhatsAppIcon } from "./whatsapp-icon";
 import { BuildWorkflow } from "./build-workflow";
-import { PaymentActions } from "./payment-actions";
 
 const OPTIONS: { id: TierId; note: string }[] = [
   { id: "starter", note: "24h template · 48h finished site" },
   { id: "pro", note: "Multi-page · deposit + final balance" },
-  { id: "flagship", note: "Bespoke · deposit + final balance" },
+  { id: "flagship", note: "Bespoke · scoped per project" },
   { id: "app", note: "Custom timeline · two payments" },
 ];
 
@@ -29,10 +28,10 @@ export function Inquiry({ industry, onIndustry, business, onBusiness }: Props) {
     <section id="contact" className="border-t">
       <div className="mx-auto grid max-w-6xl items-start gap-10 px-4 py-16 md:grid-cols-[1fr_1.1fr] md:py-20">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Preview · Deposit · Launch</p>
-          <h2 className="display-type mt-3 text-4xl text-foreground">Two steps to your new site.</h2>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Quote · Deposit · Launch</p>
+          <h2 className="display-type mt-3 text-4xl text-foreground">Confirm, pay, and we start building.</h2>
           <p className="mt-4 max-w-md text-muted-foreground">
-            Your business deserves a confident start. Review your preview, confirm your quote and secure your build with an initial deposit.
+            Your business deserves a confident start. Confirm your quote on WhatsApp, pay the non-refundable initial deposit by EFT, and we kick off development. Development does not start until the deposit is paid.
           </p>
           <BuildWorkflow />
           <p className="mt-6 text-sm text-muted-foreground">
@@ -90,17 +89,31 @@ export function Inquiry({ industry, onIndustry, business, onBusiness }: Props) {
           </fieldset>
 
           <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
-            {tier === "app"
-              ? "App builds follow a scope-based timeline. Final balance upon approval, before launch."
-              : "Quoted on WhatsApp. Deposit to kick off; final balance upon approval."}
+            {tier === "app" || tier === "flagship"
+              ? "Custom builds are scoped per project, from weeks to months. Initial deposit by EFT to kick off development; final balance upon approval, before launch."
+              : "Quoted on WhatsApp. Initial deposit by EFT to kick off development; final balance upon approval."}
           </p>
           <MoodButton type="submit" variant="whatsapp" size="lg" className="mt-6 w-full">
             <WhatsAppIcon /> Chat on WhatsApp
           </MoodButton>
         </form>
-          <div className="mt-6 border-t">
-            <PaymentActions />
-          </div>
+
+        <div className="mt-6 border-t pt-6">
+          <h3 className="text-sm font-semibold text-foreground">How payment works</h3>
+          <ol className="mt-3 space-y-2 text-sm text-muted-foreground">
+            {PAYMENT_STEPS.map((step, i) => (
+              <li key={step} className="flex gap-3">
+                <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">
+                  {i + 1}
+                </span>
+                <span className="pt-0.5">{step}</span>
+              </li>
+            ))}
+          </ol>
+          <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
+            The initial deposit is non-refundable and secures your build slot. Banking details are sent only on WhatsApp, after you confirm your quote.
+          </p>
+        </div>
         </div>
       </div>
     </section>
