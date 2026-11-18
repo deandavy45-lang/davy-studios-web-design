@@ -27,7 +27,7 @@ export function BuildWorkflow() {
           {CUSTOM_BUILD_TIMELINE} Your quote confirms the scope and delivery timeline.
         </p>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-          On every build, you approve the work and pay the final balance. Then we push your site live on your custom domain.
+          On every build, you approve the work and pay the final balance by EFT before launch. Then we push your site live on your custom domain.
         </p>
       </li>
     </ol>

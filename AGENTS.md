@@ -35,4 +35,5 @@ use the editor.
 - Seasonal overlays (`[data-season]`) only override `--season-*` and `--glow`; the date logic lives in src/lib/seasons.ts (Johannesburg time) and is covered by src/test/seasons.test.ts.
 - The site header holds only the brand and the searchable industry picker. Seasonal adaptation stays invisible — no badge, menu or strip exposes it.
 - All WhatsApp links go through `buildWhatsAppLink` in src/lib/site.ts so the number and message format stay in one place.
-- Keep workflow policy and external payment URLs centralized in src/lib/site.ts; reusable workflow and payment-action components keep inquiry copy consistent and placeholder checkout links explicitly unverified.
+- Keep workflow policy centralized in src/lib/site.ts: the 24h/48h timelines for Starter and Business Pro, the scoped timeline for Custom Flagship and App Development, the EFT payment steps and the WhatsApp message templates. The reusable build-workflow component keeps inquiry copy consistent with it.
+- Payment is by EFT, for both the initial deposit and the final balance. Clients confirm their quote on WhatsApp and receive banking details there; development starts upon proof of payment. The initial deposit is non-refundable and secures the build slot. There are no online payment links, and no banking details are stored on the site or in the repo.
