@@ -10,9 +10,9 @@ import { Footer } from "@/components/studio/footer";
 import { DEFAULT_INDUSTRY_ID, findIndustry } from "@/lib/industries";
 import { getSeason, johannesburgToday, type SeasonInfo } from "@/lib/seasons";
 
-const TITLE = "Davy Studios — 24-Hour Website Template, Ready in 48 Hours";
+const TITLE = "Davy Studios — Business Websites in 24–48 Hours, Cape Town";
 const DESCRIPTION =
-  "Davy Studios, Cape Town: deposit to kick off, website template in 24 hours, finished in 48 with one revision round. Final balance upon approval, then domain launch.";
+  "Cape Town web studio: Starter and Pro sites, template in 24h, finished in 48h. Custom flagship sites and apps scoped per project. Quote on WhatsApp.";
 
 export const Route = createFileRoute("/")({
   head: () => ({

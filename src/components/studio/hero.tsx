@@ -20,10 +20,11 @@ export function Hero({ industry, businessName }: { industry: Industry; businessN
             {industry.name}
           </p>
           <h1 className="hero-type red-letter mt-5 text-4xl text-hero-foreground sm:text-6xl">
-            See your business, alive, before you make final payment.
+            Secure your slot. Your website template follows in 24 hours.
           </h1>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-hero-muted sm:text-lg">
-            Deposit to kick off. Your website template in 24 hours, finished in 48 with one round of revisions.
+            Confirm your quote on WhatsApp, pay your non-refundable deposit by EFT and we start building.
+            Starter and Business Pro sites: template in 24 hours, finished in 48 with one round of revisions.
             Approve your site, pay the balance, and go live on your custom domain.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">

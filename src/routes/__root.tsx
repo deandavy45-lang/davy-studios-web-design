@@ -82,10 +82,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Davy Studios — Cape Town Web Studio" },
-      { name: "description", content: "Fast, mobile-first websites for local businesses, built in 24 hours in Cape Town." },
+      { name: "description", content: "Cape Town web studio: fast, mobile-first business sites in 24–48 hours, plus custom flagship sites and apps scoped per project." },
       { name: "author", content: "Davy Studios" },
       { property: "og:title", content: "Davy Studios — Cape Town Web Studio" },
-      { property: "og:description", content: "Fast, mobile-first websites for local businesses, built in 24 hours." },
+      { property: "og:description", content: "Fast, mobile-first business sites in 24–48 hours, plus custom flagship sites and apps scoped per project." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -133,3 +133,4 @@ function RootComponent() {
     </QueryClientProvider>
   );
 }
+</document_content>

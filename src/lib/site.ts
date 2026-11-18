@@ -31,12 +31,6 @@ export const PAYMENT_STEPS = [
   "We kick off development upon proof of payment",
 ] as const;
 
-// Replace these example URLs with verified merchant payment links before accepting payments.
-export const PAYSTACK_LINKS = {
-  deposit: "https://paystack.com/pay/davystudios-deposit",
-  balance: "https://paystack.com/pay/davystudios-balance",
-} as const;
-
 export const TIER_LABELS: Record<TierId, string> = {
   starter: "Essential Starter",
   pro: "Business Pro",
