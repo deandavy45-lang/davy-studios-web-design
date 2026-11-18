@@ -1,6 +1,7 @@
 export const SITE = {
   name: "Davy Studios",
   city: "Cape Town",
+  url: "https://davystudios.co.za",
   whatsappNumber: "27814977059",
   whatsappDisplay: "081 497 7059",
   theKeepUrl: "https://info.thekeepvault.co.za",
