@@ -1,5 +1,5 @@
 import { ExternalLink } from "lucide-react";
-import { SITE, TIER_LABELS, buildWhatsAppLink, type TierId } from "@/lib/site";
+import { APP_IDEA_HOOK, SITE, TIER_LABELS, buildWhatsAppLink, type TierId } from "@/lib/site";
 import { WhatsAppIcon } from "./whatsapp-icon";
 
 // Only samples with a url are live links (open in a new tab). Everything else is a concept design.
@@ -53,6 +53,11 @@ export function AppCallout() {
             <div key={t} className="min-w-0">
               <h3 className="text-[11px] font-semibold uppercase tracking-[0.18em] opacity-70">{TIER_LABELS[t]}</h3>
               <p className="mt-1 text-sm font-medium">{TIER_SUMMARY[t]}</p>
+              {t === "app" && (
+                <p className="mt-3 inline-block rounded-md bg-primary-foreground/15 px-3 py-1.5 text-sm font-semibold">
+                  {APP_IDEA_HOOK}
+                </p>
+              )}
               <ul className="mt-4 space-y-2">
                 {PORTFOLIO[t].map((s) => (
                   <li key={s.id}>

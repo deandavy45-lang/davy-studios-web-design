@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { PAYMENT_STEPS, SITE, TIER_LABELS, buildWhatsAppLink, type TierId } from "@/lib/site";
+import { DEPOSIT_TERMS, PAYMENT_STEPS, SITE, TIER_LABELS, buildWhatsAppLink, type TierId } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { IndustryPicker } from "./industry-picker";
 import { MoodButton } from "./mood-button";
@@ -23,6 +23,10 @@ interface Props {
 
 export function Inquiry({ industry, onIndustry, business, onBusiness }: Props) {
   const [tier, setTier] = useState<TierId>("starter");
+  const [refs, setRefs] = useState<[string, string]>(["", ""]);
+
+  const setRef = (index: 0 | 1, value: string) =>
+    setRefs((prev) => (index === 0 ? [value, prev[1]] : [prev[0], value]));
 
   return (
     <section id="contact" className="border-t">
@@ -31,7 +35,7 @@ export function Inquiry({ industry, onIndustry, business, onBusiness }: Props) {
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Quote · Deposit · Launch</p>
           <h2 className="display-type mt-3 text-4xl text-foreground">Confirm, pay, and we start building.</h2>
           <p className="mt-4 max-w-md text-muted-foreground">
-            Your business deserves a confident start. Confirm your quote on WhatsApp, pay the non-refundable initial deposit by EFT, and we kick off development. Development does not start until the deposit is paid.
+            Your business deserves a confident start. Confirm your quote on WhatsApp, pay your initial deposit by EFT, and we get building.
           </p>
           <BuildWorkflow />
           <p className="mt-6 text-sm text-muted-foreground">
@@ -44,7 +48,11 @@ export function Inquiry({ industry, onIndustry, business, onBusiness }: Props) {
           className="text-foreground"
           onSubmit={(e) => {
             e.preventDefault();
-            window.open(buildWhatsAppLink({ tier, business, industry: industry.name }), "_blank", "noopener");
+            window.open(
+              buildWhatsAppLink({ tier, business, industry: industry.name, references: refs }),
+              "_blank",
+              "noopener",
+            );
           }}
         >
           <label className="block text-sm font-semibold" htmlFor="industry">
@@ -65,6 +73,31 @@ export function Inquiry({ industry, onIndustry, business, onBusiness }: Props) {
             autoComplete="organization"
             className="mt-2 h-11 w-full rounded-md border bg-background px-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
           />
+
+          <fieldset className="mt-6">
+            <legend className="text-sm font-semibold">Websites you like the look of (optional)</legend>
+            <p className="mt-1 text-xs text-muted-foreground">
+              Share 1–2 sites whose look and feel you love, so we have a clear visual reference from day one.
+            </p>
+            <div className="mt-3 grid gap-2 sm:grid-cols-2">
+              {([0, 1] as const).map((i) => (
+                <input
+                  key={i}
+                  type="text"
+                  inputMode="url"
+                  autoCapitalize="none"
+                  autoComplete="off"
+                  spellCheck={false}
+                  maxLength={200}
+                  value={refs[i]}
+                  onChange={(e) => setRef(i, e.target.value)}
+                  placeholder={i === 0 ? "e.g. www.example.co.za" : "A second site (optional)"}
+                  aria-label={`Reference website ${i + 1}`}
+                  className="h-11 w-full rounded-md border bg-background px-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                />
+              ))}
+            </div>
+          </fieldset>
 
           <fieldset className="mt-6">
             <legend className="text-sm font-semibold">Which option interests you?</legend>
@@ -111,7 +144,7 @@ export function Inquiry({ industry, onIndustry, business, onBusiness }: Props) {
             ))}
           </ol>
           <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
-            The initial deposit is non-refundable and secures your build slot. Banking details are sent only on WhatsApp, after you confirm your quote.
+            {DEPOSIT_TERMS} Banking details are sent only on WhatsApp, after you confirm your quote.
           </p>
         </div>
         </div>

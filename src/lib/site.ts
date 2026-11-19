@@ -31,6 +31,14 @@ export const PAYMENT_STEPS = [
   "We kick off development upon proof of payment",
 ] as const;
 
+// Stated once, in the payment terms footnote. Do not repeat it elsewhere on the site.
+export const DEPOSIT_TERMS = "The initial deposit is non-refundable and secures your build slot.";
+
+export const PRICE_BEAT_GUARANTEE =
+  "Price-beat guarantee: share an official written quote from a registered competitor, for comparable work at fair market value, on WhatsApp and we'll beat it.";
+
+export const APP_IDEA_HOOK = "Got an app idea? Time to see it come to life.";
+
 export const TIER_LABELS: Record<TierId, string> = {
   starter: "Essential Starter",
   pro: "Business Pro",
@@ -38,27 +46,42 @@ export const TIER_LABELS: Record<TierId, string> = {
   app: "Custom App Development",
 };
 
+// Up to two reference sites, trimmed, blanks dropped.
+export function cleanReferences(references?: string[]): string[] {
+  return (references ?? [])
+    .map((r) => r.trim().slice(0, 200))
+    .filter(Boolean)
+    .slice(0, 2);
+}
+
 export function buildWhatsAppLink(opts: {
   number?: string;
   tier?: TierId;
   business?: string;
   industry?: string;
+  references?: string[];
 }): string {
   const digits = (opts.number ?? SITE.whatsappNumber).replace(/\D/g, "");
-  const lines = ["Hi Davy Studios! I'd like to confirm my quote and pay the initial deposit to kick off development."];
   const business = opts.business?.trim();
-  if (business) lines.push(`Business: ${business}`);
-  if (opts.industry) lines.push(`Industry: ${opts.industry}`);
-  if (opts.tier) lines.push(`Interested in: ${TIER_LABELS[opts.tier]}`);
-  if (opts.tier === "app") {
-    lines.push("Please confirm my app milestones and quote, then send your banking details for the non-refundable initial deposit (EFT). The deposit secures my build slot and development starts upon proof of payment.");
-    lines.push(`${CUSTOM_BUILD_TIMELINE} Final balance by EFT upon approval, before launch.`);
-  } else if (opts.tier === "flagship") {
-    lines.push("I'd like to discuss a custom flagship build. Please confirm my project scope and quote, then send your banking details for the non-refundable initial deposit (EFT). The deposit secures my build slot and development starts upon proof of payment.");
-    lines.push(`${CUSTOM_BUILD_TIMELINE} Final balance by EFT upon approval, before custom-domain launch.`);
-  } else {
-    lines.push("I'm enquiring about the Davy Studios 24-hour build package. Please send your banking details for the non-refundable initial deposit (EFT). The deposit secures my build slot and development starts upon proof of payment.");
-    lines.push(`Initial website template within ${WEBSITE_WORKFLOW.initialDeliveryHours} hours of proof of payment; ${WEBSITE_WORKFLOW.revisionRounds} structured round of corrections; finished site ready within ${WEBSITE_WORKFLOW.finishedDeliveryHours} hours. Final balance by EFT upon approval, before custom-domain launch.`);
+  const industry = opts.industry?.trim();
+  const references = cleanReferences(opts.references);
+
+  const interest = opts.tier ? `the ${TIER_LABELS[opts.tier]} package` : "a new website";
+  const about = [business ? `for ${business}` : "", industry ? `(${industry})` : ""].filter(Boolean).join(" ");
+
+  const lines = [`Hi Davy Studios! I'd like to get started with ${interest}${about ? ` ${about}` : ""}.`];
+  if (references.length === 1) {
+    lines.push(`A site whose look and feel I like: ${references[0]}`);
+  } else if (references.length > 1) {
+    lines.push(`Sites whose look and feel I like: ${references.join(", ")}`);
   }
+  lines.push("I'm happy to pay the non-refundable initial deposit to secure my build slot. What are the next steps?");
   return `https://wa.me/${digits}?text=${encodeURIComponent(lines.join("\n"))}`;
+}
+
+// Our standard WhatsApp reply once a lead has picked a package.
+export function buildStandardReply(opts: { tier?: TierId; name?: string }): string {
+  const name = opts.name?.trim();
+  const pkg = opts.tier ? `our ${TIER_LABELS[opts.tier]} package` : "Davy Studios";
+  return `Hi${name ? ` ${name}` : ""}, thank you for your interest in ${pkg}. To give your site a clear visual direction from day one, please send us two example website links you'd like yours to reflect or resemble.`;
 }

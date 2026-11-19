@@ -5,10 +5,9 @@ export function BuildWorkflow() {
     <ol className="mt-8 space-y-6 border-l border-primary/40 pl-5">
       <li>
         <p className="text-xs font-semibold uppercase text-primary">01 · Deposit & kickoff</p>
-        <h3 className="mt-1 text-lg font-semibold">Deposit first. Development follows.</h3>
+        <h3 className="mt-1 text-lg font-semibold">Secure your slot. We start building.</h3>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-          Your non-refundable initial deposit secures your build slot and starts development.
-          We don&rsquo;t build full sites on spec, so no work begins until the deposit is paid.
+          Your initial deposit locks in your place in our build schedule and kicks off development.
         </p>
       </li>
       <li>

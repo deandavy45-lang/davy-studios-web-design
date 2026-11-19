@@ -23,7 +23,7 @@ export function Hero({ industry, businessName }: { industry: Industry; businessN
             Secure your slot. Your website template follows in 24 hours.
           </h1>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-hero-muted sm:text-lg">
-            Confirm your quote on WhatsApp, pay your non-refundable deposit by EFT and we start building.
+            Confirm your quote on WhatsApp, pay your deposit by EFT and we get building.
             Starter and Business Pro sites: template in 24 hours, finished in 48 with one round of revisions.
             Approve your site, pay the balance by EFT, and go live on your custom domain.
           </p>

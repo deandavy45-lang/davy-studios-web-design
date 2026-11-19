@@ -1,5 +1,5 @@
 import { Check, ExternalLink } from "lucide-react";
-import { PAYMENT_STEPS, SITE, buildWhatsAppLink } from "@/lib/site";
+import { PAYMENT_STEPS, PRICE_BEAT_GUARANTEE, SITE, buildWhatsAppLink } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { MoodButton } from "./mood-button";
 
@@ -9,21 +9,21 @@ const TIERS = [
     name: "Essential Starter",
     kicker: "Tier 1",
     pitch:
-      "One fast, mobile-first page. Your non-refundable deposit by EFT secures your slot and kicks off development. Initial template within 24 hours of proof of payment, one structured revision round and a finished site within 48 hours. Final balance paid by EFT on approval, then your custom domain goes live — no agency lock-in.",
+      "One fast, mobile-first page. Initial template within 24 hours of proof of payment, one structured revision round and a finished site within 48 hours. Final balance by EFT on approval, then your custom domain goes live — no agency lock-in.",
     features: ["One beautiful, mobile-first page", "Your mood, colours & fonts", "One structured round of corrections", "Custom-domain launch after final payment", "Yours to keep — no lock-in"],
   },
   {
     id: "pro" as const,
     name: "Business Pro",
     kicker: "Tier 2",
-    pitch: "A multi-page site with monthly hosting and support. Your non-refundable deposit by EFT secures your slot and kicks off development. Initial template within 24 hours of proof of payment, one structured revision round and finished site within 48 hours. Launch follows your final balance EFT payment.",
+    pitch: "A multi-page site with monthly hosting and support. Initial template within 24 hours of proof of payment, one structured revision round and a finished site within 48 hours. Launch follows your final balance EFT payment.",
     features: ["Multiple pages", "Photo galleries", "Service & price menus", "Local Google SEO", "Monthly hosting & support"],
   },
   {
     id: "flagship" as const,
     name: "Custom Flagship",
     kicker: "Tier 3",
-    pitch: "Bespoke design and architecture, like The Keep. Your non-refundable deposit by EFT secures your slot and kicks off development. Scoped per project, from weeks to months depending on complexity and custom architecture. Final balance by EFT before custom-domain launch.",
+    pitch: "Bespoke design and architecture, like The Keep. Scoped per project, from weeks to months depending on complexity and custom architecture. Final balance by EFT before custom-domain launch.",
     features: ["Fully bespoke multi-page design", "Advanced security", "Custom features & integrations", "Dedicated build partner"],
   },
 ];
@@ -37,9 +37,12 @@ export function Tiers({ industry, business }: { industry: string; business: stri
           Transparent options for every stage.
         </h2>
         <p className="mt-4 max-w-xl text-muted-foreground">
-          Quoted on WhatsApp. Two once-off build payments, both by EFT: a non-refundable initial deposit that secures your slot and starts development, then the final balance on approval, before launch. Business Pro hosting and support are quoted separately.
+          Quoted on WhatsApp. Two once-off build payments, both by EFT: an initial deposit to kick off development, then the final balance on approval, before launch. Business Pro hosting and support are quoted separately.
         </p>
         <p className="mt-3 max-w-2xl text-sm font-medium text-foreground">{PAYMENT_STEPS.join(" → ")}</p>
+        <p className="mt-5 max-w-2xl rounded-lg border border-primary/40 bg-card px-4 py-3 text-sm text-foreground">
+          {PRICE_BEAT_GUARANTEE}
+        </p>
 
         <div className="mt-12 grid gap-6 lg:grid-cols-3">
           {TIERS.map((t) => {
