@@ -31,6 +31,7 @@ const PORTFOLIO: Record<TierId, Sample[]> = {
   ],
   app: [
     { id: "a0", title: "The Keep Vault", kind: "app", note: "Live secure vault application", url: SITE.theKeepAppUrl },
+    { id: "a4", title: "Keep Forever", kind: "app", note: "Proof-of-concept app demo", url: SITE.keepForeverUrl },
     { id: "a1", title: "Iron & Oak Member App", kind: "app", note: "Class booking app" },
     { id: "a2", title: "Paws & Co. Pet Portal", kind: "app", note: "Pet records & reminders" },
     { id: "a3", title: "Still Point Studio App", kind: "app", note: "Memberships & schedule" },

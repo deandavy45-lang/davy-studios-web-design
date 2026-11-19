@@ -6,6 +6,7 @@ export const SITE = {
   whatsappDisplay: "081 497 7059",
   theKeepUrl: "https://info.thekeepvault.co.za",
   theKeepAppUrl: "https://www.thekeepvault.co.za",
+  keepForeverUrl: "https://keepforever.davystudios.co.za",
 } as const;
 
 export type TierId = "starter" | "pro" | "flagship" | "app";
