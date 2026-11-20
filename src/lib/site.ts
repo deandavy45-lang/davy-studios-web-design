@@ -38,6 +38,14 @@ export const DEPOSIT_TERMS = "The initial deposit is non-refundable and secures 
 export const PRICE_BEAT_GUARANTEE =
   "Price-beat guarantee: share an official written quote from a registered competitor, for comparable work at fair market value, on WhatsApp and we'll beat it.";
 
+// Industry "Other": the client types their own business type; never send a bare "Other".
+export const OTHER_INDUSTRY_ID = "other";
+
+export function resolveIndustryLabel(industry: { id: string; name: string }, otherText = ""): string {
+  if (industry.id !== OTHER_INDUSTRY_ID) return industry.name;
+  return otherText.trim().replace(/\s+/g, " ").slice(0, 60);
+}
+
 export const APP_IDEA_HOOK = "Got an app idea? Time to see it come to life.";
 
 export const TIER_LABELS: Record<TierId, string> = {

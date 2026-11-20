@@ -1,6 +1,7 @@
 import type { LucideIcon } from "lucide-react";
-import { Activity, BedDouble, Calculator, Camera, Car, Church, Coffee, Dumbbell, Flower, Flower2, GraduationCap, HardHat, House, PawPrint, Scale, Scissors, Smile, Sparkles, SprayCan, Stethoscope, Trees, Wine, Wrench } from "lucide-react";
+import { Activity, BedDouble, BookOpen, Briefcase, Calculator, Camera, Car, Church, Coffee, Dumbbell, Flower, Flower2, GraduationCap, Hammer, HardHat, HeartPulse, House, Landmark, PawPrint, Scale, Scissors, ShoppingBag, Smartphone, Smile, Sparkles, SprayCan, Stethoscope, Trees, Truck, UtensilsCrossed, Wine, Wrench } from "lucide-react";
 import type { ThemeId } from "./moods";
+import { OTHER_INDUSTRY_ID } from "./site";
 
 import img_hair_salon from "@/assets/industries/hair-salon.jpg";
 import img_barber from "@/assets/industries/barber.jpg";
@@ -36,9 +37,23 @@ export interface Industry {
   image: string;
   story: string;
   sample: { business: string; headline: string; cta: string };
+  /** Extra search words for the industry picker (not shown). */
+  keywords?: string;
 }
 
 export const INDUSTRIES: Industry[] = [
+  // Broad, everyday categories first, so every small business finds a match.
+  { id: "retail", name: "Retail Store / General Shop", group: "Everyday Business", theme: "maker", icon: ShoppingBag, image: img_florist, keywords: "shop store boutique spaza supermarket clothing hardware gifts", story: "Friendly and easy to browse — customers find you, then find the door.", sample: { business: "Corner & Co. General Store", headline: "Everyday essentials, close to home.", cta: "Visit the Shop" } },
+  { id: "tech-repair", name: "Electronics, Cell Phone & Tech Repair", group: "Everyday Business", theme: "corporate", icon: Smartphone, image: img_photography, keywords: "phone repair laptop computer screen it support gadgets", story: "Sharp and dependable — fixed fast, explained simply.", sample: { business: "FixIt Tech & Cell Repair", headline: "Screens, batteries & fast repairs.", cta: "Get a Repair Quote" } },
+  { id: "healthcare", name: "Medical, Dental & Healthcare", group: "Everyday Business", theme: "purpose", icon: HeartPulse, image: img_medical, keywords: "doctor clinic dentist pharmacy nurse optometrist therapist", story: "Calm and reassuring — care that feels personal.", sample: { business: "Harbour Health Clinic", headline: "Care for the whole family, under one roof.", cta: "Book Appointment" } },
+  { id: "legal-financial", name: "Legal, Accounting & Financial Services", group: "Everyday Business", theme: "corporate", icon: Landmark, image: img_law, keywords: "attorney lawyer accountant bookkeeper tax insurance broker advisor", story: "Clear, crisp and credible — for firms that run on trust.", sample: { business: "Cape Counsel & Finance", headline: "Legal, tax and financial guidance you can trust.", cta: "Book a Consultation" } },
+  { id: "trades-home", name: "Trades, Construction & Home Services", group: "Everyday Business", theme: "trades", icon: Hammer, image: img_construction, keywords: "plumber electrician builder maintenance handyman painter roofing", story: "Solid and proven — the crew clients recommend.", sample: { business: "Ready Hands Home Services", headline: "Plumbing, electrical & maintenance, done right.", cta: "Get a Quote" } },
+  { id: "automotive", name: "Automotive, Workshops & Dealerships", group: "Everyday Business", theme: "trades", icon: Car, image: img_mechanic, keywords: "car garage mechanic tyres panel beater dealership motorbike", story: "High-contrast and no-nonsense — back on the road sooner.", sample: { business: "Table Mountain Motors", headline: "Servicing, repairs & quality pre-owned vehicles.", cta: "Book a Service" } },
+  { id: "hospitality", name: "Hospitality, Restaurants, Cafes & Accommodation", group: "Everyday Business", theme: "heritage", icon: UtensilsCrossed, image: img_restaurant, keywords: "restaurant cafe coffee shop takeaway bar hotel lodge guesthouse bnb catering", story: "Warm and inviting — guests book before they arrive.", sample: { business: "The Harbour Table & Stay", headline: "Good food, great coffee & a bed for the night.", cta: "Reserve or Book" } },
+  { id: "beauty-wellness", name: "Beauty, Salon, Wellness & Fitness", group: "Everyday Business", theme: "boutique", icon: Sparkles, image: img_spa, keywords: "hair nails barber spa gym yoga pilates personal trainer massage", story: "Soft, polished and uplifting — feel good from the first tap.", sample: { business: "Glow & Move Studio", headline: "Beauty, wellness & fitness in one place.", cta: "Book a Session" } },
+  { id: "education-coaching", name: "Education, Training & Coaching", group: "Everyday Business", theme: "maker", icon: BookOpen, image: img_tutoring, keywords: "school tutor lessons course academy coach mentor driving school", story: "Bright and encouraging — learners and parents trust it.", sample: { business: "Summit Learning Academy", headline: "Training, tutoring & coaching that gets results.", cta: "Enquire Now" } },
+  { id: "logistics", name: "Logistics, Transport & Courier", group: "Everyday Business", theme: "corporate", icon: Truck, image: img_construction, keywords: "delivery courier trucking freight removals shuttle taxi transport", story: "Reliable and on schedule — goods and people, where they need to be.", sample: { business: "SwiftLane Courier & Transport", headline: "Reliable deliveries, local and national.", cta: "Request a Pickup" } },
+
   { id: "hair-salon", name: "Hair Salon & Beauty", group: "Beauty & Grooming", theme: "boutique", icon: Scissors, image: img_hair_salon, story: "Editorial and refined — quiet luxury, beautifully booked.", sample: { business: "Belle Âme Salon", headline: "Colour, cuts & care on Kloof Street.", cta: "Book Now" } },
   { id: "barber", name: "Barbershop & Grooming", group: "Beauty & Grooming", theme: "trades", icon: Scissors, image: img_barber, story: "Sharp, confident and old-school — walk-ins welcome.", sample: { business: "Gentlemen's Quarter", headline: "Fades, beards & hot-towel shaves.", cta: "Book a Chair" } },
   { id: "spa", name: "Nail, Spa & Skincare", group: "Beauty & Grooming", theme: "boutique", icon: Sparkles, image: img_spa, story: "Soft, serene and indulgent — calm from the first tap.", sample: { business: "Lumière Day Spa", headline: "Facials, nails & deep relaxation.", cta: "Book a Treatment" } },
@@ -63,6 +78,9 @@ export const INDUSTRIES: Industry[] = [
   { id: "photography", name: "Photography & Creative Studio", group: "Retail, Creative & Community", theme: "maker", icon: Camera, image: img_photography, story: "Bold and cinematic — your portfolio, front and centre.", sample: { business: "Lumen Studio", headline: "Portraits, brands & weddings.", cta: "Book a Shoot" } },
   { id: "tutoring", name: "Tutoring & Education", group: "Retail, Creative & Community", theme: "maker", icon: GraduationCap, image: img_tutoring, story: "Bright and encouraging — parents trust it, learners love it.", sample: { business: "Bright Minds Tutoring", headline: "Maths, science & matric prep.", cta: "Book a Lesson" } },
   { id: "church", name: "Church & Non-Profit", group: "Retail, Creative & Community", theme: "purpose", icon: Church, image: img_church, story: "Hopeful and open — a warm welcome before the door.", sample: { business: "Grace Community Church", headline: "Sundays 9:30 · Everyone welcome.", cta: "Plan a Visit" } },
+
+  // Always last: the client types their own business type in the form.
+  { id: OTHER_INDUSTRY_ID, name: "Other", group: "Not listed?", theme: "hub", icon: Briefcase, image: img_accounting, keywords: "not listed something else my business different", story: "Clean and clear — a website built around what you do.", sample: { business: "Your Business Here", headline: "A website built around what you do.", cta: "Get Started" } },
 ];
 
 export const DEFAULT_INDUSTRY_ID = "hair-salon";
@@ -72,5 +90,5 @@ export const INDUSTRY_GROUPS: { group: string; items: Industry[] }[] = Array.fro
 ).map(([group, items]) => ({ group, items }));
 
 export function findIndustry(id: string): Industry {
-  return INDUSTRIES.find((i) => i.id === id) ?? INDUSTRIES[0]!;
+  return INDUSTRIES.find((i) => i.id === id) ?? INDUSTRIES.find((i) => i.id === DEFAULT_INDUSTRY_ID) ?? INDUSTRIES[0]!;
 }

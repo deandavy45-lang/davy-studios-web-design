@@ -3,6 +3,7 @@ import * as site from "@/lib/site";
 import {
   APP_IDEA_HOOK,
   DEPOSIT_TERMS,
+  OTHER_INDUSTRY_ID,
   PAYMENT_STEPS,
   PRICE_BEAT_GUARANTEE,
   SITE,
@@ -10,6 +11,7 @@ import {
   WEBSITE_WORKFLOW,
   buildStandardReply,
   buildWhatsAppLink,
+  resolveIndustryLabel,
   type TierId,
 } from "@/lib/site";
 
@@ -127,5 +129,35 @@ describe("Standard follow-up reply", () => {
     const text = buildStandardReply({});
     expect(text).toContain("Hi,");
     expect(text).toContain("thank you for your interest in Davy Studios");
+  });
+});
+
+describe("Industry label (including Other)", () => {
+  const dental = { id: "dental", name: "Dental Practice" };
+  const other = { id: OTHER_INDUSTRY_ID, name: "Other" };
+
+  it("uses the selected category name and ignores any leftover custom text", () => {
+    expect(resolveIndustryLabel(dental, "Florist")).toBe("Dental Practice");
+  });
+  it("uses the typed text for Other, trimmed and tidied", () => {
+    expect(resolveIndustryLabel(other, "   Pet   Grooming  ")).toBe("Pet Grooming");
+  });
+  it("returns nothing for Other with no text, never a bare Other", () => {
+    expect(resolveIndustryLabel(other, "")).toBe("");
+    expect(resolveIndustryLabel(other, "    ")).toBe("");
+    expect(resolveIndustryLabel(other)).toBe("");
+  });
+  it("caps the typed text at 60 characters", () => {
+    expect(resolveIndustryLabel(other, "x".repeat(100))).toHaveLength(60);
+  });
+  it("puts the typed industry into the WhatsApp message", () => {
+    const text = messageFor({ industry: resolveIndustryLabel(other, "Pet Grooming") });
+    expect(text).toContain("(Pet Grooming)");
+  });
+  it("leaves the industry out of the WhatsApp message when Other has no text", () => {
+    const text = messageFor({ industry: resolveIndustryLabel(other, "") });
+    expect(text).not.toContain("Other");
+    expect(text).not.toContain("()");
+    expect(text).toContain("I'd like to get started with a new website.");
   });
 });

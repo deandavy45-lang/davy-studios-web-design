@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Check, ChevronDown } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
-import { INDUSTRY_GROUPS, findIndustry } from "@/lib/industries";
+import { INDUSTRIES, INDUSTRY_GROUPS, findIndustry } from "@/lib/industries";
 import { cn } from "@/lib/utils";
 
 interface Props {
@@ -45,10 +45,10 @@ export function IndustryPicker({ value, onChange, tone = "bar", id }: Props) {
       </PopoverTrigger>
       <PopoverContent align="start" className="w-[min(22rem,calc(100vw-2rem))] p-0">
         <Command>
-          <CommandInput placeholder="Search 24 industries… e.g. dentist" />
+          <CommandInput placeholder={`Search ${INDUSTRIES.length} industries… e.g. dentist`} />
           <CommandList className="max-h-[min(60vh,26rem)]">
             <CommandEmpty>
-              Not listed? Pick the closest — we build for every local business.
+              Not listed? Choose &ldquo;Other&rdquo; and tell us your business.
             </CommandEmpty>
             {INDUSTRY_GROUPS.map(({ group, items }) => (
               <CommandGroup key={group} heading={group}>
@@ -57,7 +57,7 @@ export function IndustryPicker({ value, onChange, tone = "bar", id }: Props) {
                   return (
                     <CommandItem
                       key={ind.id}
-                      value={`${ind.name} ${ind.group}`}
+                      value={`${ind.name} ${ind.group} ${ind.keywords ?? ""}`}
                       onSelect={() => {
                         onChange(ind.id);
                         setOpen(false);

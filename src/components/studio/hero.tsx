@@ -5,11 +5,20 @@ import { HeroBackdrop } from "./hero-backdrop";
 import { MoodButton } from "./mood-button";
 import { WhatsAppIcon } from "./whatsapp-icon";
 
-export function Hero({ industry, businessName }: { industry: Industry; businessName: string }) {
+interface Props {
+  industry: Industry;
+  // The category name, or what the visitor typed for "Other". Empty when "Other" has no text yet.
+  industryLabel: string;
+  businessName: string;
+}
+
+export function Hero({ industry, industryLabel, businessName }: Props) {
   const Icon = industry.icon;
+  // Shown on the page; "Other" with no text still reads "Other" here, but is never sent on WhatsApp.
+  const shownName = industryLabel || industry.name;
   return (
     <section id="top" className="relative isolate overflow-hidden bg-hero text-hero-foreground">
-      <HeroBackdrop src={industry.image} alt={`${industry.name} interior`} />
+      <HeroBackdrop src={industry.image} alt={`${shownName} interior`} />
       <div aria-hidden className="hero-overlay absolute inset-0" />
       <div aria-hidden className="season-dots pointer-events-none absolute inset-0 opacity-60" />
       <div className="relative mx-auto max-w-6xl px-4 py-16 md:py-20">
@@ -17,7 +26,7 @@ export function Hero({ industry, businessName }: { industry: Industry; businessN
           <p className="text-sm font-semibold text-hero-foreground">Davy Studios · Cape Town</p>
           <p className="mt-5 inline-flex items-center gap-2 text-xs font-medium text-hero-accent">
             <Icon className="size-3.5" />
-            {industry.name}
+            {shownName}
           </p>
           <h1 className="hero-type red-letter mt-5 text-4xl text-hero-foreground sm:text-6xl">
             Secure your slot. Your website template follows in 24 hours.
@@ -29,7 +38,7 @@ export function Hero({ industry, businessName }: { industry: Industry; businessN
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <MoodButton asChild size="lg" variant="hero">
-              <a href={buildWhatsAppLink({ industry: industry.name, business: businessName })} target="_blank" rel="noopener noreferrer">
+              <a href={buildWhatsAppLink({ industry: industryLabel, business: businessName })} target="_blank" rel="noopener noreferrer">
                 <WhatsAppIcon /> Chat on WhatsApp
               </a>
             </MoodButton>

@@ -1,5 +1,14 @@
 import { useState } from "react";
-import { DEPOSIT_TERMS, PAYMENT_STEPS, SITE, TIER_LABELS, buildWhatsAppLink, type TierId } from "@/lib/site";
+import {
+  DEPOSIT_TERMS,
+  OTHER_INDUSTRY_ID,
+  PAYMENT_STEPS,
+  SITE,
+  TIER_LABELS,
+  buildWhatsAppLink,
+  resolveIndustryLabel,
+  type TierId,
+} from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { IndustryPicker } from "./industry-picker";
 import { MoodButton } from "./mood-button";
@@ -17,13 +26,19 @@ const OPTIONS: { id: TierId; note: string }[] = [
 interface Props {
   industry: Industry;
   onIndustry: (id: string) => void;
+  otherText: string;
+  onOtherText: (text: string) => void;
   business: string;
   onBusiness: (name: string) => void;
 }
 
-export function Inquiry({ industry, onIndustry, business, onBusiness }: Props) {
+export function Inquiry({ industry, onIndustry, otherText, onOtherText, business, onBusiness }: Props) {
   const [tier, setTier] = useState<TierId>("starter");
   const [refs, setRefs] = useState<[string, string]>(["", ""]);
+
+  const isOther = industry.id === OTHER_INDUSTRY_ID;
+  // The category, or what they typed for "Other". Empty only for "Other" with no text.
+  const industryLabel = resolveIndustryLabel(industry, otherText);
 
   const setRef = (index: 0 | 1, value: string) =>
     setRefs((prev) => (index === 0 ? [value, prev[1]] : [prev[0], value]));
@@ -48,8 +63,10 @@ export function Inquiry({ industry, onIndustry, business, onBusiness }: Props) {
           className="text-foreground"
           onSubmit={(e) => {
             e.preventDefault();
+            // Never send a bare "Other": the typed text is required.
+            if (isOther && !industryLabel) return;
             window.open(
-              buildWhatsAppLink({ tier, business, industry: industry.name, references: refs }),
+              buildWhatsAppLink({ tier, business, industry: industryLabel, references: refs }),
               "_blank",
               "noopener",
             );
@@ -61,6 +78,28 @@ export function Inquiry({ industry, onIndustry, business, onBusiness }: Props) {
           <div className="mt-2">
             <IndustryPicker id="industry" value={industry.id} onChange={onIndustry} tone="form" />
           </div>
+
+          {isOther && (
+            <div className="mt-4">
+              <label className="block text-sm font-semibold" htmlFor="industry-other">
+                Please specify your industry
+              </label>
+              <input
+                id="industry-other"
+                type="text"
+                value={otherText}
+                onChange={(e) => onOtherText(e.target.value.slice(0, 60))}
+                required
+                aria-required="true"
+                pattern=".*\S.*"
+                title="Please tell us what kind of business you run"
+                maxLength={60}
+                autoComplete="off"
+                placeholder="e.g. Pet Grooming, Florist, Printing Shop"
+                className="mt-2 h-11 w-full rounded-md border bg-background px-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+              />
+            </div>
+          )}
 
           <label className="mt-6 block text-sm font-semibold" htmlFor="business">
             Business name

@@ -8,6 +8,7 @@ import { Inquiry } from "@/components/studio/inquiry";
 import { FloatingWhatsApp } from "@/components/studio/floating-whatsapp";
 import { Footer } from "@/components/studio/footer";
 import { DEFAULT_INDUSTRY_ID, findIndustry } from "@/lib/industries";
+import { OTHER_INDUSTRY_ID, resolveIndustryLabel } from "@/lib/site";
 import { getSeason, johannesburgToday, type SeasonInfo } from "@/lib/seasons";
 
 const TITLE = "Davy Studios — Business Websites in 24–48 Hours, Cape Town";
@@ -32,6 +33,7 @@ const EVERYDAY: SeasonInfo = { mode: "none", label: "Everyday mode", detail: "" 
 
 function Index() {
   const [industryId, setIndustryId] = useState(DEFAULT_INDUSTRY_ID);
+  const [otherText, setOtherText] = useState("");
   const [business, setBusiness] = useState("");
   const [season, setSeason] = useState<SeasonInfo>(EVERYDAY);
 
@@ -42,6 +44,16 @@ function Index() {
 
   const industry = findIndustry(industryId);
 
+  // What we tell people on WhatsApp: the category, or what they typed for "Other".
+  // Empty for "Other" with no text yet, so a bare "Other" is never sent.
+  const industryLabel = resolveIndustryLabel(industry, otherText);
+
+  // Switching away from "Other" clears the typed text.
+  const handleIndustry = (id: string) => {
+    setIndustryId(id);
+    if (id !== OTHER_INDUSTRY_ID) setOtherText("");
+  };
+
   // Keep the page edges (overscroll) and pop-ups in the same mood as the content.
   useEffect(() => {
     document.documentElement.dataset["theme"] = industry.theme;
@@ -50,15 +62,22 @@ function Index() {
 
   return (
     <div data-theme={industry.theme} data-season={season.mode} className="min-h-screen bg-background font-sans text-foreground">
-      <MoodSwitcher industry={industryId} onIndustry={setIndustryId} />
+      <MoodSwitcher industry={industryId} onIndustry={handleIndustry} />
       <main>
-        <Hero industry={industry} businessName={business} />
-        <Tiers industry={industry.name} business={business} />
+        <Hero industry={industry} industryLabel={industryLabel} businessName={business} />
+        <Tiers industry={industryLabel} business={business} />
         <AppCallout />
-        <Inquiry industry={industry} onIndustry={setIndustryId} business={business} onBusiness={setBusiness} />
+        <Inquiry
+          industry={industry}
+          onIndustry={handleIndustry}
+          otherText={otherText}
+          onOtherText={setOtherText}
+          business={business}
+          onBusiness={setBusiness}
+        />
       </main>
       <Footer />
-      <FloatingWhatsApp industry={industry.name} business={business} />
+      <FloatingWhatsApp industry={industryLabel} business={business} />
     </div>
   );
 }
