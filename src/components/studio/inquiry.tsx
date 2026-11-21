@@ -1,12 +1,14 @@
 import { useState } from "react";
 import {
   DEPOSIT_TERMS,
+  HOSTING_PLANS,
   OTHER_INDUSTRY_ID,
   PAYMENT_STEPS,
   SITE,
   TIER_LABELS,
   buildWhatsAppLink,
   resolveIndustryLabel,
+  type HostingPlanId,
   type TierId,
 } from "@/lib/site";
 import { cn } from "@/lib/utils";
@@ -35,6 +37,7 @@ interface Props {
 export function Inquiry({ industry, onIndustry, otherText, onOtherText, business, onBusiness }: Props) {
   const [tier, setTier] = useState<TierId>("starter");
   const [refs, setRefs] = useState<[string, string]>(["", ""]);
+  const [hosting, setHosting] = useState<HostingPlanId | null>(null);
 
   const isOther = industry.id === OTHER_INDUSTRY_ID;
   // The category, or what they typed for "Other". Empty only for "Other" with no text.
@@ -66,7 +69,13 @@ export function Inquiry({ industry, onIndustry, otherText, onOtherText, business
             // Never send a bare "Other": the typed text is required.
             if (isOther && !industryLabel) return;
             window.open(
-              buildWhatsAppLink({ tier, business, industry: industryLabel, references: refs }),
+              buildWhatsAppLink({
+                tier,
+                business,
+                industry: industryLabel,
+                references: refs,
+                hosting: tier === "app" ? null : hosting,
+              }),
               "_blank",
               "noopener",
             );
@@ -159,6 +168,40 @@ export function Inquiry({ industry, onIndustry, otherText, onOtherText, business
               })}
             </div>
           </fieldset>
+
+          {tier === "app" ? (
+            <p className="mt-6 text-sm text-muted-foreground">App hosting is scoped and confirmed in your quote.</p>
+          ) : (
+            <fieldset className="mt-6">
+              <legend className="text-sm font-semibold">Hosting & care (optional)</legend>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Choose a plan, or leave it blank and we&rsquo;ll talk it through on WhatsApp. Tap a plan again to clear it.
+              </p>
+              <div className="mt-3 grid gap-2">
+                {HOSTING_PLANS.map((plan) => {
+                  const on = hosting === plan.id;
+                  return (
+                    <button
+                      key={plan.id}
+                      type="button"
+                      aria-pressed={on}
+                      onClick={() => setHosting(on ? null : plan.id)}
+                      className={cn(
+                        "flex w-full items-start justify-between gap-3 rounded-lg border p-3 text-left text-sm",
+                        on ? "border-primary bg-primary text-primary-foreground" : "hover:bg-muted",
+                      )}
+                    >
+                      <span className="min-w-0">
+                        <span className="block font-semibold">{plan.name}</span>
+                        <span className={cn("block text-xs", on ? "opacity-80" : "text-muted-foreground")}>{plan.summary}</span>
+                      </span>
+                      <span className="shrink-0 font-semibold">{plan.price}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </fieldset>
+          )}
 
           <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
             {tier === "app" || tier === "flagship"

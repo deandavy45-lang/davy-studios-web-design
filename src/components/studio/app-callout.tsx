@@ -7,7 +7,7 @@ interface Sample { id: string; title: string; note: string; kind: "site" | "app"
 
 const TIER_SUMMARY: Record<TierId, string> = {
   starter: "A fast, single-page site that gets you found and booked.",
-  pro: "A multi-page business site with hosting and ongoing support.",
+  pro: "A multi-page business site, with optional hosting and care plans.",
   flagship: "Bespoke design and architecture for brands that need more.",
   app: "Full web & mobile applications, scoped after a discovery chat.",
 };

@@ -3,6 +3,8 @@ import * as site from "@/lib/site";
 import {
   APP_IDEA_HOOK,
   DEPOSIT_TERMS,
+  DOMAIN_AND_EMAIL_NOTE,
+  HOSTING_PLANS,
   OTHER_INDUSTRY_ID,
   PAYMENT_STEPS,
   PRICE_BEAT_GUARANTEE,
@@ -11,7 +13,9 @@ import {
   WEBSITE_WORKFLOW,
   buildStandardReply,
   buildWhatsAppLink,
+  findHostingPlan,
   resolveIndustryLabel,
+  type HostingPlanId,
   type TierId,
 } from "@/lib/site";
 
@@ -159,5 +163,49 @@ describe("Industry label (including Other)", () => {
     expect(text).not.toContain("Other");
     expect(text).not.toContain("()");
     expect(text).toContain("I'd like to get started with a new website.");
+  });
+});
+
+describe("Hosting and care plans", () => {
+  it("offers exactly three plans at the agreed fixed prices", () => {
+    expect(HOSTING_PLANS.map((p) => [p.id, p.name, p.price])).toEqual([
+      ["self-hosted", "Self-Hosted / Walk-Away", "R0/month"],
+      ["managed", "Managed Hosting & Uptime", "R295/month"],
+      ["care", "Hosting + Monthly Care", "R650/month"],
+    ]);
+    expect(HOSTING_PLANS.map((p) => p.monthlyRand)).toEqual([0, 295, 650]);
+  });
+  it("hands the full code over on the self-hosted plan", () => {
+    expect(findHostingPlan("self-hosted")?.includes).toContain("Full code handover to you");
+  });
+  it("covers hosting, SSL, uptime, .co.za renewals and quarterly edits on the managed plan", () => {
+    const includes = findHostingPlan("managed")?.includes.join(" ") ?? "";
+    for (const part of ["Vercel hosting", "SSL", "Uptime monitoring", ".co.za domain renewal", "2 minor text or photo edits per quarter"]) {
+      expect(includes).toContain(part);
+    }
+  });
+  it("adds monthly updates, priority support and local SEO check-ins on the care plan", () => {
+    const includes = findHostingPlan("care")?.includes.join(" ") ?? "";
+    expect(includes).toContain("Everything in Managed Hosting");
+    expect(includes).toContain("1 hour of monthly content and photo updates");
+    expect(includes).toContain("Priority WhatsApp support");
+    expect(includes).toContain("Google Business Profile and local SEO check-ins");
+  });
+  it("says the client keeps their domain and mailboxes are on request", () => {
+    expect(DOMAIN_AND_EMAIL_NOTE).toContain("keep ownership of your domain");
+    expect(DOMAIN_AND_EMAIL_NOTE).toContain("@yourdomain.co.za");
+    expect(DOMAIN_AND_EMAIL_NOTE).toContain("on request");
+  });
+  it.each(HOSTING_PLANS)("puts the chosen plan into the WhatsApp message (%#)", (plan) => {
+    const text = messageFor({ tier: "starter", hosting: plan.id });
+    expect(text).toContain(`Hosting: ${plan.name} (${plan.price})`);
+    expect(text).toContain("What are the next steps?");
+  });
+  it("leaves the hosting line out when nothing is chosen", () => {
+    expect(messageFor({ tier: "starter" })).not.toContain("Hosting:");
+    expect(messageFor({ tier: "starter", hosting: null })).not.toContain("Hosting:");
+  });
+  it("ignores an unknown plan id", () => {
+    expect(messageFor({ hosting: "nope" as HostingPlanId })).not.toContain("Hosting:");
   });
 });

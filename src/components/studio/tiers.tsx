@@ -1,5 +1,5 @@
 import { Check, ExternalLink } from "lucide-react";
-import { PAYMENT_STEPS, PRICE_BEAT_GUARANTEE, SITE, buildWhatsAppLink } from "@/lib/site";
+import { DOMAIN_AND_EMAIL_NOTE, HOSTING_PLANS, PAYMENT_STEPS, PRICE_BEAT_GUARANTEE, SITE, buildWhatsAppLink } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { MoodButton } from "./mood-button";
 
@@ -16,8 +16,8 @@ const TIERS = [
     id: "pro" as const,
     name: "Business Pro",
     kicker: "Tier 2",
-    pitch: "A multi-page site with monthly hosting and support. Initial template within 24 hours of proof of payment, one structured revision round and a finished site within 48 hours. Launch follows your final balance EFT payment.",
-    features: ["Multiple pages", "Photo galleries", "Service & price menus", "Local Google SEO", "Monthly hosting & support"],
+    pitch: "A multi-page site for growing businesses. Initial template within 24 hours of proof of payment, one structured revision round and a finished site within 48 hours. Launch follows your final balance EFT payment.",
+    features: ["Multiple pages", "Photo galleries", "Service & price menus", "Local Google SEO", "Optional hosting & care plans"],
   },
   {
     id: "flagship" as const,
@@ -37,7 +37,7 @@ export function Tiers({ industry, business }: { industry: string; business: stri
           Transparent options for every stage.
         </h2>
         <p className="mt-4 max-w-xl text-muted-foreground">
-          Quoted on WhatsApp. Two once-off build payments, both by EFT: an initial deposit to kick off development, then the final balance on approval, before launch. Business Pro hosting and support are quoted separately.
+          Quoted on WhatsApp. Two once-off build payments, both by EFT: an initial deposit to kick off development, then the final balance on approval, before launch.
         </p>
         <p className="mt-3 max-w-2xl text-sm font-medium text-foreground">{PAYMENT_STEPS.join(" → ")}</p>
         <p className="mt-5 max-w-2xl rounded-lg border border-primary/40 bg-card px-4 py-3 text-sm text-foreground">
@@ -112,6 +112,42 @@ export function Tiers({ industry, business }: { industry: string; business: stri
               </article>
             );
           })}
+        </div>
+
+        <div className="mt-16">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Hosting & care</p>
+          <h3 className="display-type mt-3 max-w-2xl text-3xl text-foreground sm:text-4xl">
+            Optional, with fixed monthly prices.
+          </h3>
+          <p className="mt-3 max-w-xl text-muted-foreground">
+            Pick one when you request your quote, or walk away with the code.
+          </p>
+
+          <div className="mt-8 grid gap-6 md:grid-cols-3">
+            {HOSTING_PLANS.map((plan) => (
+              <article
+                key={plan.id}
+                className="card-mood flex flex-col rounded-xl border bg-card p-6 text-card-foreground"
+              >
+                <h4 className="display-type text-2xl">{plan.name}</h4>
+                <p className="mt-2 flex items-baseline gap-1">
+                  <span className="display-type text-3xl">R{plan.monthlyRand}</span>
+                  <span className="text-sm text-muted-foreground">/month</span>
+                </p>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{plan.summary}</p>
+                <ul className="mt-5 space-y-2.5 text-sm">
+                  {plan.includes.map((item) => (
+                    <li key={item} className="flex gap-2.5">
+                      <Check className="mt-0.5 size-4 shrink-0 text-primary" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
+
+          <p className="mt-6 max-w-2xl text-sm text-muted-foreground">{DOMAIN_AND_EMAIL_NOTE}</p>
         </div>
       </div>
     </section>
