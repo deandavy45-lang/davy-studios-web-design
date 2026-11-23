@@ -13,18 +13,35 @@ import { getSeason, johannesburgToday, type SeasonInfo } from "@/lib/seasons";
 
 const TITLE = "Davy Studios — Business Websites in 24–48 Hours, Cape Town";
 const DESCRIPTION =
-  "Cape Town web studio: Starter and Pro sites, template in 24h, finished in 48h. Custom flagship sites and apps scoped per project. Quote on WhatsApp.";
+  "Cape Town web studio: Starter & Pro sites, template in 24h, finished in 48h. Custom sites & apps scoped per project. Hosting R0–R650/month. Quote on WhatsApp.";
+
+// Social share preview (WhatsApp, Facebook, LinkedIn). Absolute HTTPS URLs on the canonical www host.
+const PAGE_URL = "https://www.davystudios.co.za/";
+const SHARE_IMAGE = "https://www.davystudios.co.za/og-banner.png";
+const SHARE_IMAGE_ALT =
+  "Davy Studios: Fast, Mobile-First Websites in 24–48 Hours. Cape Town web design: Starter (R5,000), Business Pro (R7,500), Custom Flagship.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: TITLE },
       { name: "description", content: DESCRIPTION },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: PAGE_URL },
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESCRIPTION },
-      { property: "og:type", content: "website" },
+      { property: "og:image", content: SHARE_IMAGE },
+      { property: "og:image:secure_url", content: SHARE_IMAGE },
+      { property: "og:image:type", content: "image/png" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { property: "og:image:alt", content: SHARE_IMAGE_ALT },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: TITLE },
+      { name: "twitter:description", content: DESCRIPTION },
+      { name: "twitter:image", content: SHARE_IMAGE },
     ],
+    links: [{ rel: "canonical", href: PAGE_URL }],
   }),
   component: Index,
 });
