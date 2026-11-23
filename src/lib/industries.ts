@@ -83,7 +83,9 @@ export const INDUSTRIES: Industry[] = [
   { id: OTHER_INDUSTRY_ID, name: "Other", group: "Not listed?", theme: "hub", icon: Briefcase, image: img_accounting, keywords: "not listed something else my business different", story: "Clean and clear — a website built around what you do.", sample: { business: "Your Business Here", headline: "A website built around what you do.", cta: "Get Started" } },
 ];
 
-export const DEFAULT_INDUSTRY_ID = "hair-salon";
+// First-time visitors start on the neutral "Other" state (laptop and web-design backdrop),
+// and can pick a category or type their own business type.
+export const DEFAULT_INDUSTRY_ID = OTHER_INDUSTRY_ID;
 
 export const INDUSTRY_GROUPS: { group: string; items: Industry[] }[] = Array.from(
   INDUSTRIES.reduce((map, ind) => map.set(ind.group, [...(map.get(ind.group) ?? []), ind]), new Map<string, Industry[]>()),

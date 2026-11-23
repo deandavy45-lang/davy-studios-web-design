@@ -13,7 +13,7 @@ import { getSeason, johannesburgToday, type SeasonInfo } from "@/lib/seasons";
 
 const TITLE = "Davy Studios — Business Websites in 24–48 Hours, Cape Town";
 const DESCRIPTION =
-  "Cape Town web studio: Starter & Pro sites, template in 24h, finished in 48h. Custom sites & apps scoped per project. Hosting R0–R650/month. Quote on WhatsApp.";
+  "Cape Town web studio: 24h template, 48h launch. Custom sites & apps scoped to you. Self-hosted or managed plans to suit your budget. Chat on WhatsApp.";
 
 // Social share preview (WhatsApp, Facebook, LinkedIn). Absolute HTTPS URLs on the canonical www host.
 const PAGE_URL = "https://www.davystudios.co.za/";
